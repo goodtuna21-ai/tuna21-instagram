@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>참치 회 카드뉴스</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; word-break:keep-all; overflow-wrap:break-word; }
+  body { background:#e8e8e8; }
+  .card {
+    width:800px;
+    height:1000px;
+    position:relative;
+    overflow:hidden;
+    font-family:'Noto Sans KR', sans-serif;
+    margin:0 auto 24px auto;
+  }
+  .photo-bg {
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    z-index:0;
+  }
+  .scrim {
+    position:absolute; inset:0;
+    z-index:1;
+  }
+  .tag {
+    display:inline-block;
+    font-size:20px;
+    font-weight:700;
+    letter-spacing:2px;
+    padding:8px 20px;
+    border-radius:30px;
+    margin-bottom:24px;
+  }
+  .pagenum {
+    position:absolute;
+    bottom:40px;
+    right:48px;
+    font-size:18px;
+    font-weight:700;
+    opacity:0.75;
+    letter-spacing:1px;
+    z-index:2;
+  }
+
+  /* ===== CARD 1 : COVER ===== */
+  #card1 {
+    color:#fffaf3;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+    text-align:center;
+    padding:70px 70px 90px;
+  }
+  #card1 .scrim {
+    background:linear-gradient(180deg, rgba(30,8,10,0.30) 0%, rgba(35,9,11,0.35) 32%, rgba(50,11,14,0.80) 66%, rgba(40,9,12,0.94) 100%);
+  }
+  .c1-eyebrow {
+    font-size:22px;
+    letter-spacing:6px;
+    font-weight:500;
+    color:#ffd67a;
+    margin-bottom:22px;
+    z-index:2;
+  }
+  .c1-title {
+    font-size:60px;
+    font-weight:900;
+    line-height:1.28;
+    z-index:2;
+    position:relative;
+    text-shadow:0 4px 20px rgba(0,0,0,0.4);
+  }
+  .c1-title span { color:#ffd67a; }
+  .c1-sub {
+    margin-top:26px;
+    font-size:23px;
+    font-weight:400;
+    line-height:1.6;
+    color:#ffe9d6;
+    z-index:2;
+    position:relative;
+  }
+  .c1-badge {
+    z-index:2;
+    position:relative;
+    margin-top:34px;
+    display:flex;
+    gap:14px;
+  }
+  .c1-badge div {
+    background:rgba(255,255,255,0.15);
+    border:1px solid rgba(255,255,255,0.4);
+    padding:12px 26px;
+    border-radius:40px;
+    font-size:20px;
+    font-weight:700;
+    backdrop-filter:blur(2px);
+  }
+
+  /* ===== CARD 2 : HEALTH ===== */
+  #card2 {
+    background:#fffaf3;
+    color:#3a2418;
+    padding:56px 64px;
+  }
+  .c2-tag { background:#ffe1c9; color:#c14a1f; }
+  .c2-hero {
+    width:100%; height:210px; margin-bottom:20px;
+    border-radius:22px; overflow:hidden;
+    box-shadow:0 10px 26px rgba(120,70,30,0.18);
+  }
+  .c2-hero img { width:100%; height:100%; object-fit:cover; display:block; }
+  .c2-title {
+    font-size:42px;
+    font-weight:900;
+    line-height:1.3;
+    color:#2a1810;
+    margin-bottom:10px;
+  }
+  .c2-title span { color:#c14a1f; }
+  .c2-lead {
+    font-size:19px;
+    color:#7a5c48;
+    margin-bottom:20px;
+    line-height:1.6;
+  }
+  .c2-list {
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .c2-item {
+    display:flex;
+    align-items:flex-start;
+    gap:18px;
+    background:#fff2e4;
+    border-radius:20px;
+    padding:18px 22px;
+    border:2px solid #ffdcb8;
+  }
+  .c2-num {
+    flex-shrink:0;
+    width:44px; height:44px;
+    border-radius:50%;
+    background:#c14a1f;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+    font-weight:900;
+  }
+  .c2-item h3 {
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:5px;
+    color:#2a1810;
+  }
+  .c2-item p {
+    font-size:16px;
+    color:#6b4c3a;
+    line-height:1.5;
+  }
+  .c2-footer {
+    position:absolute;
+    bottom:24px;
+    left:64px;
+    font-size:16px;
+    color:#a98b73;
+  }
+
+  /* ===== CARD 3 : FUN NEWS ===== */
+  #card3 {
+    color:#eaf3ff;
+    padding:64px 64px;
+  }
+  #card3 .scrim {
+    background:linear-gradient(180deg, rgba(6,20,36,0.62) 0%, rgba(8,26,46,0.72) 26%, rgba(9,30,53,0.93) 54%, rgba(9,30,53,0.97) 100%);
+  }
+  .c3-tag { background:#2f6fb5; color:#eaf6ff; }
+  .c3-title {
+    font-size:44px;
+    font-weight:900;
+    line-height:1.35;
+    margin-bottom:28px;
+    position:relative; z-index:2;
+  }
+  .c3-title span { color:#7fd4ff; }
+  .c3-news {
+    background:rgba(255,255,255,0.10);
+    border:1px solid rgba(255,255,255,0.20);
+    border-radius:22px;
+    padding:24px 26px;
+    margin-bottom:16px;
+    position:relative; z-index:2;
+    backdrop-filter:blur(2px);
+  }
+  .c3-news .label {
+    display:inline-block;
+    font-size:15px;
+    font-weight:700;
+    background:#ffd67a;
+    color:#5a3a00;
+    padding:5px 14px;
+    border-radius:20px;
+    margin-bottom:12px;
+    letter-spacing:1px;
+  }
+  .c3-news h3 {
+    font-size:23px;
+    font-weight:700;
+    margin-bottom:8px;
+    color:#ffffff;
+  }
+  .c3-news p {
+    font-size:16px;
+    line-height:1.55;
+    color:#cfe3f7;
+  }
+  .c3-news .big {
+    font-family:'Playfair Display', serif;
+    font-weight:900;
+    font-size:31px;
+    color:#7fd4ff;
+  }
+
+  /* ===== CARD 4 : CLOSING ===== */
+  #card4 {
+    color:#fffaf3;
+    padding:60px 64px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+  }
+  #card4 .scrim {
+    background:linear-gradient(180deg, rgba(30,8,10,0.20) 0%, rgba(35,9,11,0.30) 30%, rgba(55,12,14,0.85) 62%, rgba(45,10,13,0.96) 100%);
+  }
+  .c4-title {
+    font-size:42px;
+    font-weight:900;
+    line-height:1.32;
+    margin-bottom:20px;
+    position:relative; z-index:2;
+  }
+  .c4-title span { color:#ffd67a; }
+  .c4-cuts {
+    display:flex;
+    gap:14px;
+    margin-bottom:20px;
+    position:relative; z-index:2;
+  }
+  .c4-cut {
+    flex:1;
+    background:rgba(255,255,255,0.14);
+    border:1px solid rgba(255,255,255,0.32);
+    border-radius:16px;
+    padding:16px 12px;
+    text-align:center;
+    backdrop-filter:blur(2px);
+  }
+  .c4-cut .name {
+    font-size:20px;
+    font-weight:700;
+    color:#ffd67a;
+    margin-bottom:6px;
+  }
+  .c4-cut .desc {
+    font-size:14px;
+    color:#ffe9d6;
+    line-height:1.45;
+  }
+  .c4-msg {
+    font-size:18px;
+    line-height:1.6;
+    color:#ffe9d6;
+    margin-bottom:22px;
+    position:relative; z-index:2;
+  }
+  .c4-msg b { color:#ffd67a; }
+
+  .c4-contact {
+    background:rgba(0,0,0,0.35);
+    border:1px solid rgba(255,255,255,0.28);
+    border-radius:22px;
+    padding:24px 26px;
+    position:relative; z-index:2;
+    backdrop-filter:blur(2px);
+  }
+  .c4-contact-name {
+    font-size:28px;
+    font-weight:900;
+    color:#ffd67a;
+    margin-bottom:12px;
+    letter-spacing:1px;
+  }
+  .c4-contact-row {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:18px;
+    font-weight:500;
+    color:#fffaf3;
+    margin-bottom:8px;
+  }
+  .c4-contact-row:last-child { margin-bottom:0; }
+  .c4-contact-row svg { width:20px; height:20px; flex-shrink:0; color:#ffd67a; }
+  .c4-contact-row b { font-weight:800; letter-spacing:0.5px; }
+</style>
+</head>
+<body>
+
+<!-- CARD 1 : COVER -->
+<div class="card" id="card1">
+  <img class="photo-bg" src="photos/photo1.jpg" alt="참치 사시미">
+  <div class="scrim"></div>
+  <div class="c1-eyebrow">TUNA SASHIMI STORY</div>
+  <div class="c1-title">몰랐던<br>참치 회의<br><span>진짜 매력</span></div>
+  <div class="c1-sub">건강 정보부터 흥미진진한 뉴스까지<br>참치 회, 제대로 알고 즐겨볼까요?</div>
+  <div class="c1-badge">
+    <div>건강</div><div>상식</div><div>뉴스</div>
+  </div>
+  <div class="pagenum" style="color:#ffe9d6;">1 / 4</div>
+</div>
+
+<!-- CARD 2 : HEALTH -->
+<div class="card" id="card2">
+  <div class="tag c2-tag">HEALTH BENEFIT</div>
+
+  <div class="c2-hero"><img src="photos/photo2.jpg" alt="참치 사시미 플레이팅"></div>
+
+  <div class="c2-title">참치 회 한 점,<br><span>몸에는 보약</span>입니다</div>
+  <div class="c2-lead">기름진 맛 뒤에 숨은 놀라운 영양 효과</div>
+  <div class="c2-list">
+    <div class="c2-item">
+      <div class="c2-num">1</div>
+      <div>
+        <h3>저지방 고단백의 대명사</h3>
+        <p>참치는 100g당 약 24~26g의 단백질을 함유하면서도 지방 함량은 낮아, 다이어트와 근육 관리에 모두 도움이 되는 식품입니다.</p>
+      </div>
+    </div>
+    <div class="c2-item">
+      <div class="c2-num">2</div>
+      <div>
+        <h3>오메가-3의 보물창고</h3>
+        <p>DHA·EPA가 풍부해 두뇌 활동과 기억력 유지, 혈관 건강 개선에 도움을 준다고 알려져 있습니다.</p>
+      </div>
+    </div>
+    <div class="c2-item">
+      <div class="c2-num">3</div>
+      <div>
+        <h3>비타민 D · 셀레늄 듬뿍</h3>
+        <p>뼈 건강에 중요한 비타민 D와 항산화 미네랄 셀레늄이 풍부해 면역력 관리에도 긍정적입니다.</p>
+      </div>
+    </div>
+  </div>
+  <div class="c2-footer">참치 회 이야기 · 2/4</div>
+</div>
+
+<!-- CARD 3 : FUN NEWS -->
+<div class="card" id="card3">
+  <img class="photo-bg" src="photos/photo3.jpg" alt="바닷속 참치">
+  <div class="scrim"></div>
+  <div class="tag c3-tag" style="position:relative;z-index:2;">FUN FACT NEWS</div>
+  <div class="c3-title">알면 더 재밌는<br><span>참치 뉴스 모음</span></div>
+
+  <div class="c3-news">
+    <span class="label">경매 신기록</span>
+    <h3>참다랑어 한 마리, 약 <span class="big">30억 원</span></h3>
+    <p>2019년 일본 도쿄 새해 첫 경매에서 212kg짜리 참다랑어가 3억 3,360만 엔에 낙찰되며 전 세계를 놀라게 했어요.</p>
+  </div>
+
+  <div class="c3-news">
+    <span class="label">놀라운 신체능력</span>
+    <h3>시속 70km로 헤엄치는 바다의 스프린터</h3>
+    <p>참치는 유선형 몸매와 강력한 근육 덕분에 바닷속에서 가장 빠른 어종 중 하나로 꼽힙니다.</p>
+  </div>
+
+  <div class="c3-news">
+    <span class="label">신기한 습성</span>
+    <h3>헤엄치면서 잠을 잔다?!</h3>
+    <p>아가미로 계속 물을 통과시켜야 숨을 쉴 수 있어, 참치는 잠을 잘 때도 헤엄을 멈추지 않는다고 해요.</p>
+  </div>
+
+  <div class="pagenum">3 / 4</div>
+</div>
+
+<!-- CARD 4 : CLOSING -->
+<div class="card" id="card4">
+  <img class="photo-bg" src="photos/photo4.jpg" alt="참치 회 식당">
+  <div class="scrim"></div>
+  <div class="c4-title">오늘 저녁,<br><span>참치 회 한 점</span> 어때요?</div>
+
+  <div class="c4-cuts">
+    <div class="c4-cut">
+      <div class="name">아카미</div>
+      <div class="desc">담백하고<br>깔끔한 맛</div>
+    </div>
+    <div class="c4-cut">
+      <div class="name">츄토로</div>
+      <div class="desc">적당한<br>기름기 조화</div>
+    </div>
+    <div class="c4-cut">
+      <div class="name">오토로</div>
+      <div class="desc">입에서<br>녹는 부위</div>
+    </div>
+  </div>
+
+  <div class="c4-msg">
+    부위마다 다른 <b>맛과 식감</b>을 비교해보는 것도 참치 회를 즐기는 또 다른 재미랍니다.
+  </div>
+
+  <div class="c4-contact">
+    <div class="c4-contact-name">참치21</div>
+    <div class="c4-contact-row">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+      <span>강남역 도보권 · 주차 가능</span>
+    </div>
+    <div class="c4-contact-row">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.25 1.01z"/></svg>
+      <span>예약문의 <b>02-556-0067</b></span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

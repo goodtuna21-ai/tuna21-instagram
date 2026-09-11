@@ -1,0 +1,6 @@
+env/
+photos/
+out/
+*.hwpx
+*.docx
+.env
